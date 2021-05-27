@@ -30,7 +30,7 @@ release() {
     export GOARM
   fi
 
-  CGO_ENABLED=0 go build -ldflags " -w $LFLAGS" -o "bin/$NAME$EXT" cli/main.go
+  CGO_ENABLED=0 go build -ldflags " -w $LFLAGS" -o "bin/$NAME$EXT" main.go
   tar -czf "release/$NAME-$GOOS-$GOARCH$ARM_EXT.tar.gz" -C bin/ "$NAME$EXT"
   (cd release && sha1sum "$NAME-$GOOS-$GOARCH$ARM_EXT.tar.gz" > "$NAME-$GOOS-$GOARCH$ARM_EXT.tar.gz.sha1")
   rm -f "bin/$NAME$EXT"
@@ -39,7 +39,6 @@ release() {
 rm -rf bin release
 mkdir -p bin release
 
-go generate ./...
 while read configuration; do
   unset GOOS
   unset GOARCH
